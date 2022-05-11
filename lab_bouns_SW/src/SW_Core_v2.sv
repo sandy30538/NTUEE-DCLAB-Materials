@@ -179,85 +179,26 @@ module SW_core(
         o_column_n              = 0;
         o_row_n                 = 0;
 
+        // *** TODO
         case(state)
             S_idle: begin
-                sequence_A_n                                                    = (i_valid) ? i_sequence_ref : 0;
-                sequence_B_n                                                    = (i_valid) ? i_sequence_read : 0;
-                seq_A_length_n                                                  = (i_valid) ? i_seq_ref_length : 0;
-                seq_B_length_n                                                  = (i_valid) ? i_seq_read_length : 0;
-
-                counter_n                                                       = 0;
-                for (i=0;i<`READ_MAX_LENGTH;i=i+1) sequence_B_valid_n[i]        = 0;
-                sequence_A_shifter_n                                            = 0;
-
-                highest_score_n                                                 = MOST_NEGATIVE;
-                column_n                                                        = 0;
-                row_n                                                           = 0;
-                for (i=0;i<`READ_MAX_LENGTH;i=i+1) row_highest_scores_n[i]      = 0;
-                for (i=0;i<`READ_MAX_LENGTH;i=i+1) row_highest_columns_n[i]     = 0;
-
-                for (i=0;i<`READ_MAX_LENGTH;i=i+1) PE_align_score_d_n  [i]      = 0;
-                for (i=0;i<`READ_MAX_LENGTH;i=i+1) PE_insert_score_d_n [i]      = 0;
-                for (i=0;i<`READ_MAX_LENGTH;i=i+1) PE_delete_score_d_n [i]      = 0;
-                for (i=0;i<`READ_MAX_LENGTH;i=i+1) PE_align_score_dd_n [i]      = 0;
-                for (i=0;i<`READ_MAX_LENGTH;i=i+1) PE_insert_score_dd_n[i]      = 0;
-                for (i=0;i<`READ_MAX_LENGTH;i=i+1) PE_delete_score_dd_n[i]      = 0;
                 
-                // output ports 
-                o_ready = 1;
             end
 
             S_input: begin
-                sequence_A_shifter_n                                            = sequence_A;
-                for (i=0;i<`READ_MAX_LENGTH;i=i+1) sequence_B_valid_n[i]        = (i < seq_B_length) ? 1 : 0;
+               
             end
 
-            S_calculate:
-            begin
-                counter_n = (counter == seq_A_length + seq_B_length - 1) ? 0 : counter + 1;
-
-                // sequence A shifting control 
-                sequence_A_shifter_n = sequence_A_shifter << 2;
-                
-                ///////////////////////////// PE array input scores conrtol ///////////////////////////
-                for (i=0;i<`READ_MAX_LENGTH;i=i+1) PE_align_score_d_n  [i]        = PE_align_score   [i];
-                for (i=0;i<`READ_MAX_LENGTH;i=i+1) PE_insert_score_d_n [i]        = PE_insert_score  [i];
-                for (i=0;i<`READ_MAX_LENGTH;i=i+1) PE_delete_score_d_n [i]        = PE_delete_score  [i];
-                for (i=0;i<`READ_MAX_LENGTH;i=i+1) PE_align_score_dd_n [i]        = PE_align_score_d [i];
-                for (i=0;i<`READ_MAX_LENGTH;i=i+1) PE_insert_score_dd_n[i]        = PE_insert_score_d[i];
-                for (i=0;i<`READ_MAX_LENGTH;i=i+1) PE_delete_score_dd_n[i]        = PE_delete_score_d[i];
-
-                
-                // highest score conrtol
-                for (i=0;i<`READ_MAX_LENGTH;i=i+1) begin
-                    if ( PE_score_buff[i] > row_highest_scores[i] ) begin
-                        row_highest_scores_n[i]   = PE_score_buff[i];
-                        row_highest_columns_n[i]  = counter - i - 1;
-                    end
-                end           
+            S_calculate: begin
+                           
             end
 
             S_select_highest: begin
-                counter_n = (counter == seq_B_length - 1) ? 0 : counter + 1;
-
-                for (i=0;i<`READ_MAX_LENGTH-1;i=i+1) begin
-                    row_highest_scores_n[i]   = row_highest_scores[i+1] ;
-                    row_highest_columns_n[i]  = row_highest_columns[i+1];
-                end
-                row_highest_scores_n [`READ_MAX_LENGTH-1]  = 0;
-                row_highest_columns_n[`READ_MAX_LENGTH-1]  = 0;
-
-                if (row_highest_scores[0] > highest_score) begin
-                    highest_score_n     = row_highest_scores[0];
-                    column_n            = row_highest_columns[0];
-                    row_n               = counter;
-                end
+                
             end
 
             S_done: begin
-                o_valid_n   = 1;
-                o_row_n     = row;
-                o_column_n  = column;
+                
             end
         endcase
     end
