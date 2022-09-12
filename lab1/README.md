@@ -153,17 +153,16 @@ please follow these steps:
 * sim/ and lint/
 	* Working directories
 
-## nLint
+## Spyglass
 Verilog coding style checking
 
-    cd lab1/lint/
-    make ../src/Top
+    spyglass &
 
 ## Simulation
 Simulate the core file(s)
 
     cd lab1/sim/
-    make -f ../../Makefile Top
+    ncverilog +access+r 
 
 And you can use nWave to check the signals of your Verilog code.
 
