@@ -76,7 +76,7 @@ assign o_SRAM_UB_N = 1'b0;
 // sequentially sent out settings to initialize WM8731 with I2C protocal
 I2cInitializer init0(
 	.i_rst_n(i_rst_n),
-	.i_clk(i_clk_100K),
+	.i_clk(i_clk_100k),
 	.i_start(),
 	.o_finished(),
 	.o_sclk(o_I2C_SCLK),
@@ -132,7 +132,7 @@ always_comb begin
 	// design your control here
 end
 
-always_ff @(posedge i_AUD_BCLK or posedge i_rst_n) begin
+always_ff @(posedge i_AUD_BCLK or negedge i_rst_n) begin
 	if (!i_rst_n) begin
 		
 	end
