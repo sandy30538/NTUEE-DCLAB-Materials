@@ -10,9 +10,6 @@ You have to use I2C to initialize the WM8731 chip,
 and we have provided recommended booting sequence for you.
 Since we cannot build circuit with a fixed-perioded clock with SystemVerilog,
 we need a reference clock to build the SCLK/SDAT of I2C.
-According the slide, 114 cycles is required to build a valid 24-bit I2C in our implementation (Why?).
-If you have the booting sequence is 10x(8-bit address/RW + 16-bit data),
-then you can complete the initialization within 1140 cycles.
 
 The reference clock (again, not SCLK) should be 100kHz or less,
 and you should use PLL to make a slower clock from a 50MHz (default clock) or
